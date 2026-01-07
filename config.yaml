@@ -1,0 +1,48 @@
+# Configuração do Sistema VTON Modular
+
+# Hardware
+hardware:
+  device: "cuda"  # cuda ou cpu
+  vram_limit_gb: 8
+  use_float16: true
+  cpu_offload: true
+
+# Modelos
+models:
+  insightface:
+    name: "buffalo_l"
+    providers: ["CUDAExecutionProvider", "CPUExecutionProvider"]
+  
+  stable_diffusion:
+    model_id: "runwayml/stable-diffusion-v1-5"
+    variant: "fp16"
+    safety_checker: false
+  
+  # Nunca carregar InsightFace e SD1.5 juntos na GPU
+  exclusive_loading: true
+
+# Identidade
+identity:
+  temporal_graph:
+    time_decay_factor: 0.95  # Fator de decaimento temporal
+    max_history: 100  # Máximo de histórico de embeddings
+    similarity_threshold: 0.7  # Limiar de similaridade para identificação
+  
+  embedding_dim: 512
+
+# Wardrobe
+wardrobe:
+  storage_path: "data/wardrobe"
+  max_items: 1000
+
+# VTON
+vton:
+  output_path: "outputs"
+  image_size: [512, 768]  # largura x altura
+  num_inference_steps: 30
+  guidance_scale: 7.5
+
+# Logging
+logging:
+  level: "INFO"
+  log_file: "logs/vton.log"
